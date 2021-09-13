@@ -31,9 +31,10 @@ public:
 
     // LU-algorithm methods
     tuple<TriangularMatrix<double>*, TriangularMatrix<double>*> CalculateLUMatrices();
-
+    Vector<double>* CalculateY(TriangularMatrix<double>* L);
+    Vector<double>* CalculateX(TriangularMatrix<double>* U, Vector<double>* y);
     // Tests
-    void TestSimpleLU();
+    void SimpleTest();
 };
 
 #endif // LAB1_H

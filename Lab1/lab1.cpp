@@ -70,7 +70,41 @@ tuple<TriangularMatrix<double> *, TriangularMatrix<double> *> Lab1::CalculateLUM
     return tuple<TriangularMatrix<double> *, TriangularMatrix<double> *>(L, U);
 }
 
-void Lab1::TestSimpleLU()
+Vector<double>* Lab1::CalculateY(TriangularMatrix<double>* L)
+{
+    Vector<double>* y = new Vector<double>(A->get_size(), 0);
+
+    logger->log("Finding y vector");
+
+    for (int i = 0; i < A->get_size(); i++) {
+        double yi = b->get(i);
+        for (int j = 0; j < i; j++)
+            yi -= L->get(i, j) * y->get(j);
+        y->set(i, yi);
+    }
+
+    logger->log("y = " + y->get_data_str());
+    return y;
+}
+
+Vector<double> *Lab1::CalculateX(TriangularMatrix<double> *U, Vector<double> *y)
+{
+    Vector<double>* x = new Vector<double>(A->get_size(), 0);
+
+    logger->log("Finding x vector");
+
+    for (int i = A->get_size() - 1; i >= 0; i--) {
+        double xi = y->get(i);
+        for (int j = i + 1; j < A->get_size(); j++)
+            xi -= U->get(i, j) * x->get(j);
+        x->set(i, xi / U->get(i, i));
+    }
+
+    logger->log("x = " + x->get_data_str());
+    return x;
+}
+
+void Lab1::SimpleTest()
 {
 
 //    double** A = new double*[4];
@@ -93,5 +127,26 @@ void Lab1::TestSimpleLU()
     double b[3] = {23, 32, 33};
 
     setSourceData(A, (double*) b, 3);
-    CalculateLUMatrices();
+    auto tuple_LU = CalculateLUMatrices();
+    Vector<double>* y = CalculateY(get<0>(tuple_LU));
+    Vector<double>* Ly = (*(get<0>(tuple_LU)) * y);
+    Vector<double>* x = CalculateX(get<1>(tuple_LU), y);
+    Vector<double>* Ux = (*(get<1>(tuple_LU)) * x);
+    Vector<double>* Ax = (*(this->A) * x);
+
+    logger->log("Ly = b = " + Ly->get_data_str());
+    logger->log("Ux = y = " + Ux->get_data_str());
+    logger->log("Ax = b = " + Ax->get_data_str());
+
+    // TODO: add memory cleaning here
+    delete y;
+    delete Ly;
+    delete x;
+    delete Ux;
+    delete Ax;
+    delete get<0>(tuple_LU);
+    delete get<1>(tuple_LU);
+    for (int i = 0; i < 3; i++)
+        delete []A[i];
+    delete []A;
 }

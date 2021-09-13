@@ -5,13 +5,14 @@
 #include "Lab1/lab1.h"
 
 
+
 int main(int argc, char *argv[])
 {
     printf("Starting tests ...\n");
 
     Lab1 test(true, &clog);
     try {
-    test.TestSimpleLU();
+    test.SimpleTest();
     } catch (exception ex) {
         printf(ex.what());
     }

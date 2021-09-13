@@ -24,7 +24,7 @@ public:
 
     // getters
     virtual T get(int i, int j){
-        if (i >= this->n || j >= this->n)
+        if (i >= this->n || j >= this->n || i < 0 || j < 0)
             throw; // TODO: exceptions!!!
         if (isUpperOne) {
             if (i > j)
@@ -52,7 +52,8 @@ public:
                     else
                         as_str << 0 << " ";
             }
-            as_str << std::endl;
+            if (i != this->m - 1)
+                as_str << std::endl;
         }
         return as_str.str();
     }
