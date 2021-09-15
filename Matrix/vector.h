@@ -37,8 +37,23 @@ public:
     }
 
     // actions with vector
+    Vector<T>* operator-(Vector<T>* vec) {
+        BaseMatrix<T>* sub = this->SubstructionByMatrix(vec);
+        Vector<T>* res = ConvertToVector(sub);
+        delete sub;
+        return res;
+    }
 
 
+    // converters
+    static Vector<T>* ConvertToVector(BaseMatrix<T>* dst) {
+        if (dst->get_m() != 1)
+            throw; // TODO: correct exceptions!
+        Vector<T>* vec = new Vector<T>(dst->get_n(), 0);
+        for (int i = 0; i < dst->get_n(); i++)
+            vec->set(i, dst->get(0, i));
+        return vec;
+    }
 
 };
 

@@ -104,6 +104,44 @@ Vector<double> *Lab1::CalculateX(TriangularMatrix<double> *U, Vector<double> *y)
     return x;
 }
 
+double Lab1::CalculateDet(TriangularMatrix<double> *U)
+{
+    double det = 1;
+    for (int i = 0; i < U->get_size(); i++)
+        det *= U->get(i, i);
+
+    logger->log("det = " + to_string(det));
+    return det;
+}
+
+SquareMatrix<double> *Lab1::CalculateInverseMatrix(TriangularMatrix<double> *L, TriangularMatrix<double> *U)
+{
+    SquareMatrix<double>* X = new SquareMatrix<double>(this->A->get_size(), 0);
+
+    for (int i = this->A->get_size() - 1; i >= 0; i--)
+        for (int j = this->A->get_size() - 1; j >= 0; j--) {
+            double Xij = 0;
+            if (i == j) {
+                Xij = 1;
+                for (int k = j + 1; k < this->A->get_size(); k++)
+                    Xij -= U->get(j, k) * X->get(k, j);
+                Xij /= U->get(i, j);
+            }
+            else if (i < j) {
+                for (int k = i + 1; k < this->A->get_size(); k++)
+                    Xij += U->get(i, k) * X->get(k, j);
+                Xij /= -U->get(i, i);
+            } else {
+                for (int k = j + 1; k < this->A->get_size(); k++)
+                    Xij -= X->get(i, k) * L->get(k, j);
+            }
+            X->set(i, j, Xij);
+        }
+
+    logger->log("A^-1 = \n" + X->get_data_str());
+    return X;
+}
+
 void Lab1::SimpleTest()
 {
 
@@ -126,17 +164,38 @@ void Lab1::SimpleTest()
 
     double b[3] = {23, 32, 33};
 
+    // setting source data
     setSourceData(A, (double*) b, 3);
-    auto tuple_LU = CalculateLUMatrices();
-    Vector<double>* y = CalculateY(get<0>(tuple_LU));
-    Vector<double>* Ly = (*(get<0>(tuple_LU)) * y);
-    Vector<double>* x = CalculateX(get<1>(tuple_LU), y);
-    Vector<double>* Ux = (*(get<1>(tuple_LU)) * x);
-    Vector<double>* Ax = (*(this->A) * x);
 
+    // LU-method calculation
+    auto tuple_LU = CalculateLUMatrices();
+    TriangularMatrix<double>* L = get<0>(tuple_LU);
+    TriangularMatrix<double>* U = get<1>(tuple_LU);
+    Vector<double>* y = CalculateY(L);
+    Vector<double>* x = CalculateX(U, y);
+
+    // inverse matrix and determinant
+    SquareMatrix<double>* _A = CalculateInverseMatrix(L, U);
+    double detA = CalculateDet(U);
+
+    // discrepancy
+    Vector<double>* Ly = ((*L) * y);
+    Vector<double>* Ux = ((*U) * x);
+    Vector<double>* Ax = (*(this->A) * x);
+    Vector<double>* b_d = (*(this->b)) - Ax;
+    SquareMatrix<double>* E = new SquareMatrix<double>(this->A->get_n(), 0);
+    E->fillMainDiagonal(1);
+    SquareMatrix<double>* A_A = (*(this->A)) * _A;
+    SquareMatrix<double>* A_E = (*A_A) - E;
+
+    // checking solutions
     logger->log("Ly = b = " + Ly->get_data_str());
     logger->log("Ux = y = " + Ux->get_data_str());
     logger->log("Ax = b = " + Ax->get_data_str());
+
+    // discrepancy
+    logger->log("b - Ax = " + b_d->get_data_str());
+    logger->log("AA^-1 - E = \n" + A_E->get_data_str());
 
     // TODO: add memory cleaning here
     delete y;
@@ -144,9 +203,14 @@ void Lab1::SimpleTest()
     delete x;
     delete Ux;
     delete Ax;
-    delete get<0>(tuple_LU);
-    delete get<1>(tuple_LU);
+    delete L;
+    delete U;
+    delete _A;
     for (int i = 0; i < 3; i++)
         delete []A[i];
     delete []A;
+    delete E;
+    delete A_A;
+    delete b_d;
+    delete A_E;
 }

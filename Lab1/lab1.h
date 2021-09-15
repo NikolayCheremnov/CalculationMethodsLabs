@@ -33,6 +33,8 @@ public:
     tuple<TriangularMatrix<double>*, TriangularMatrix<double>*> CalculateLUMatrices();
     Vector<double>* CalculateY(TriangularMatrix<double>* L);
     Vector<double>* CalculateX(TriangularMatrix<double>* U, Vector<double>* y);
+    double CalculateDet(TriangularMatrix<double>* U);
+    SquareMatrix<double>* CalculateInverseMatrix(TriangularMatrix<double>* L, TriangularMatrix<double>* U);
     // Tests
     void SimpleTest();
 };

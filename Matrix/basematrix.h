@@ -98,6 +98,18 @@ public:
         return result;
     }
 
+    BaseMatrix<T>* SubstructionByMatrix(BaseMatrix<T>* matrix) {
+        if (n != matrix->get_n() || m != matrix->get_m())
+            throw std::exception(); // TODO: create own exception here
+
+        BaseMatrix<T>* result = new BaseMatrix<T>(m, n, 0);
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                result->set(i, j, data[i][j] - matrix->data[i][j]);
+
+        return result;
+    }
+
     // actions current with matrix
     void Transpose() {
         T** new_data = new T*[n];
