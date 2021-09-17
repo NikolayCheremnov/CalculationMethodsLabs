@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 
+#include "matrixexception.h"
 
 template <class T>
 class BaseMatrix
@@ -54,7 +55,7 @@ public:
     int get_m() { return m; }
     int get_n() { return n; }
     virtual int get_size() {
-        throw std::exception(); // TODO: create own exception here
+        throw MatrixException("base matrix have not unified size");
         return 0;
     }
     virtual std::string get_data_str(){
@@ -70,21 +71,21 @@ public:
 
     virtual T get(int i, int j) {
         if (i >= m || j >= n || i < 0 || j < 0)
-            throw std::exception(); // TODO: create own exception here
+            throw MatrixException("base matrix index out of range");
         return data[i][j];
     }
 
     // setters
     virtual void set(int i, int j, T value) {
         if (i >= m || j >= n || i < 0 || j < 0)
-            throw std::exception(); // TODO: create own exception here
+            throw MatrixException("base matrix index out of range");
         data[i][j] = value;
     }
 
     // arithmetic operations with matrices
     BaseMatrix<T>* MultiplyByMatrix(BaseMatrix<T>* matrix) {
         if (n != matrix->m)
-            throw std::exception(); // TODO: create own exception here
+            throw MatrixException("invalid matrices multiply operation");
 
         BaseMatrix<T>* result = new BaseMatrix<T>(m, matrix->n, 0);
 
@@ -100,7 +101,7 @@ public:
 
     BaseMatrix<T>* SubstructionByMatrix(BaseMatrix<T>* matrix) {
         if (n != matrix->get_n() || m != matrix->get_m())
-            throw std::exception(); // TODO: create own exception here
+            throw MatrixException("invalid matrices substruction operation");
 
         BaseMatrix<T>* result = new BaseMatrix<T>(m, n, 0);
         for (int i = 0; i < m; i++)

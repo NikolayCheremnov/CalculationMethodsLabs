@@ -25,14 +25,14 @@ public:
     int get_size() { return this->n; }
     T get(int index) {
         if (index >= this->n || index < 0)
-            throw; // TODO: correct exceptions!
+            throw MatrixException("vector index out of range");
         return this->data[0][index];
     }
 
     // setters
     virtual void set(int index, T value){
         if (index >= this->n)
-            throw; // TODO: correct exceptions!
+            throw MatrixException("vector index out of range");
         this->data[0][index] = value;
     }
 
@@ -48,7 +48,7 @@ public:
     // converters
     static Vector<T>* ConvertToVector(BaseMatrix<T>* dst) {
         if (dst->get_m() != 1)
-            throw; // TODO: correct exceptions!
+            throw MatrixException("invalid vector convertation");
         Vector<T>* vec = new Vector<T>(dst->get_n(), 0);
         for (int i = 0; i < dst->get_n(); i++)
             vec->set(i, dst->get(0, i));

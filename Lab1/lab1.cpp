@@ -154,7 +154,7 @@ void Lab1::SimpleTest()
 //    A[3][0] = 5; A[3][1] = 7; A[3][2] = 9; A[3][3] = 10;
 
 //    double b[4] = {23, 32, 33, 31};
-
+try{
     double** A = new double*[3];
     for (int i = 0; i < 3; i++)
         A[i] = new double[3];
@@ -213,4 +213,8 @@ void Lab1::SimpleTest()
     delete A_A;
     delete b_d;
     delete A_E;
+    }
+    catch (exception& ex) {
+        logger->log(ex.what());
+    }
 }

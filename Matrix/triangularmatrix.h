@@ -25,14 +25,14 @@ public:
     // getters
     virtual T get(int i, int j){
         if (i >= this->n || j >= this->n || i < 0 || j < 0)
-            throw; // TODO: exceptions!!!
+            throw MatrixException("triangular matrix index out of range");
         if (isUpperOne) {
             if (i > j)
-                throw; // TODO: exceptions
+                throw MatrixException("triangular matrix index out of range");
             return this->data[j][i];
         } else {
             if (j > i)
-                throw; // TODO: exceptions
+                throw MatrixException("triangular matrix index out of range");
             return this->data[i][j];
         }
     }
@@ -62,14 +62,14 @@ public:
     // setters
     virtual void set(int i, int j, T value){
         if (i >= this->n || j >= this->n)
-            throw; // TODO: exceptions!!!
+            throw MatrixException("triangular matrix index out of range");
         if (isUpperOne) {
             if (i > j)
-                throw; // TODO: exceptions
+                throw MatrixException("triangular matrix index out of range");
             this->data[j][i] = value;
         } else {
             if (j > i)
-                throw; // TODO: exceptions
+                throw MatrixException("triangular matrix index out of range");
             this->data[i][j] = value;
         }
     }

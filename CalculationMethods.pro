@@ -13,6 +13,7 @@ SOURCES += \
     Logger/ilogger.cpp \
     Logger/streamlogger.cpp \
     Matrix/basematrix.cpp \
+    Matrix/matrixexception.cpp \
     Matrix/squarematrix.cpp \
     Matrix/triangularmatrix.cpp \
     Matrix/vector.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     Logger/ilogger.h \
     Logger/streamlogger.h \
     Matrix/basematrix.h \
+    Matrix/matrixexception.h \
     Matrix/squarematrix.h \
     Matrix/triangularmatrix.h \
     Matrix/vector.h \

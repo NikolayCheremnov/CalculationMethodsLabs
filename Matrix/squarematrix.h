@@ -3,6 +3,7 @@
 
 #include "basematrix.h"
 #include "vector.h"
+#include "matrixexception.h"
 
 template <class T>
 class SquareMatrix : public BaseMatrix<T>
@@ -17,14 +18,14 @@ public:
     virtual int get_size() { return this->n; }
     virtual T get(int i, int j){
         if (i >= this->m || j >= this->n)
-            throw;  // TODO: exceptions
+            throw MatrixException("square matrix index out of range");
         return this->data[i][j];
     }
 
     // setters
     virtual void set(int i, int j, T value){
         if (i >= this->m || j >= this->n || i < 0 || j < 0)
-            throw;  // TODO: exceptions
+            throw MatrixException("square matrix index out of range");
         this->data[i][j] = value;
     }
 
@@ -67,7 +68,7 @@ public:
 
     static SquareMatrix<T>* ConvertToSquareMatrix(BaseMatrix<T>* dst) {
         if (dst->get_n() != dst->get_m())
-            throw;  // TODO: exceptions
+            throw MatrixException("invalid square matrix convertation");
         SquareMatrix<T>* mat = new SquareMatrix<T>(dst->get_n(), 0);
         for (int i = 0; i < dst->get_n(); i++)
             for (int j = 0; j < dst->get_n(); j++)
