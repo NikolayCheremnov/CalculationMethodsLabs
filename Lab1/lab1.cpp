@@ -3,19 +3,19 @@
 
 Lab1::Lab1():
     ENABLE_LOGGING{false},
-    logger {new StreamLogger(nullptr)},
+    logger {new PlugLogger()},
     A {nullptr},
     b{nullptr}
 {
 
 }
 
-Lab1::Lab1(bool enableLogging, ostream *stream) : Lab1()
+Lab1::Lab1(bool enableLogging, ILogger* logger) : Lab1()
 {
-    if (ENABLE_LOGGING = enableLogging) {
-        logger = new StreamLogger(&clog);
-    } else
-        logger = new StreamLogger(nullptr);
+    if (ENABLE_LOGGING = enableLogging)
+        this->logger = logger;
+    else
+        logger = new PlugLogger();
 }
 
 Lab1::~Lab1()
@@ -24,7 +24,7 @@ Lab1::~Lab1()
         delete A;
     if (b != nullptr)
         delete b;
-    if (logger != nullptr)
+    if (!ENABLE_LOGGING)
         delete logger;
 }
 
@@ -217,4 +217,66 @@ try{
     catch (exception& ex) {
         logger->log(ex.what());
     }
+}
+
+void Lab1::TestWithData(double **A, double *b, int n)
+{
+    // pointers
+    TriangularMatrix<double>* L = nullptr;
+    TriangularMatrix<double>* U = nullptr;
+    Vector<double>* y = nullptr;
+    Vector<double>* x = nullptr;
+    SquareMatrix<double>* _A = nullptr;
+    Vector<double>* Ax = nullptr;
+    Vector<double>* b_d = nullptr;
+    SquareMatrix<double>* E = nullptr;
+    SquareMatrix<double>* A_A = nullptr;
+    SquareMatrix<double>* A_E = nullptr;
+
+    auto release_memory = [=]() {
+        if (L != nullptr) delete L;
+        if (U != nullptr) delete U;
+        if (y != nullptr) delete y;
+        if (x != nullptr) delete x;
+        if (_A != nullptr) delete _A;
+        if (Ax != nullptr) delete Ax;
+        if (b_d != nullptr) delete b_d;
+        if (E != nullptr) delete E;
+        if (A_A != nullptr) delete A_A;
+        if (A_E != nullptr) delete A_E;
+    };
+
+    try {
+        // setting source data
+        setSourceData(A, b, n);
+
+        // LU-method calculation
+        auto tuple_LU = CalculateLUMatrices();
+        L = get<0>(tuple_LU);
+        U = get<1>(tuple_LU);
+        y = CalculateY(L);
+        x = CalculateX(U, y);
+
+        // inverse matrix and determinant
+        _A = CalculateInverseMatrix(L, U);
+        CalculateDet(U);
+
+
+        // discrepancy
+        Ax = (*(this->A) * x);
+        b_d = (*(this->b)) - Ax;
+        logger->log("b - Ax = " + b_d->get_data_str());
+        E = new SquareMatrix<double>(this->A->get_n(), 0);
+        E->fillMainDiagonal(1);
+        A_A = (*(this->A)) * _A;
+        A_E = (*A_A) - E;
+        logger->log("AA^-1 - E = \n" + A_E->get_data_str());
+    }
+    catch (exception& ex) {
+        release_memory();
+        logger->log(ex.what());
+        return;
+    }
+    logger->log("test with data successful completed");
+    release_memory();
 }

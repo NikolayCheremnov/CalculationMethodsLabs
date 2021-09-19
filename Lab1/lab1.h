@@ -7,7 +7,7 @@
 #include <Matrix/triangularmatrix.h>
 #include <Matrix/vector.h>
 #include <Logger/ilogger.h>
-#include <Logger/streamlogger.h>
+#include <Logger/pluglogger.h>
 
 using namespace std;
 
@@ -23,7 +23,7 @@ private:
 
 public:
     Lab1();
-    Lab1(bool enableLogging, ostream* stream);
+    Lab1(bool enableLogging, ILogger* external_logger);
     ~Lab1();
 
     // setting sources data
@@ -37,6 +37,7 @@ public:
     SquareMatrix<double>* CalculateInverseMatrix(TriangularMatrix<double>* L, TriangularMatrix<double>* U);
     // Tests
     void SimpleTest();
+    void TestWithData(double** A, double* b, int n);
 };
 
 #endif // LAB1_H

@@ -11,7 +11,9 @@ CONFIG += c++11
 SOURCES += \
     Lab1/lab1.cpp \
     Logger/ilogger.cpp \
+    Logger/pluglogger.cpp \
     Logger/streamlogger.cpp \
+    Logger/stringlogger.cpp \
     Matrix/basematrix.cpp \
     Matrix/matrixexception.cpp \
     Matrix/squarematrix.cpp \
@@ -23,7 +25,9 @@ SOURCES += \
 HEADERS += \
     Lab1/lab1.h \
     Logger/ilogger.h \
+    Logger/pluglogger.h \
     Logger/streamlogger.h \
+    Logger/stringlogger.h \
     Matrix/basematrix.h \
     Matrix/matrixexception.h \
     Matrix/squarematrix.h \
