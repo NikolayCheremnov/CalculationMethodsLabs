@@ -25,6 +25,8 @@ private slots:
     // Lab1 slots
     void on_Lab1SolveBtn_clicked();
 
+    void on_Lab1FillBtn_clicked();
+
 private:
     Ui::GUI *ui;
 

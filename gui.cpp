@@ -62,7 +62,10 @@ void GUI::on_Lab1SolveBtn_clicked()
             sendOutput(ui->Lab1Output, "Invalid input data: incorrect n");
             return;
         }
-
+        if (input_data.length() < n + 1) {
+            sendOutput(ui->Lab1Output, "Invalid input data: incorrect system format");
+            return;
+        }
         // reading linear system
         A = new double*[n];
         b = new double[n];
@@ -71,6 +74,8 @@ void GUI::on_Lab1SolveBtn_clicked()
 
         for (int i = 1; i <= n; i++) {
             QList<QString> row = data_rows[i].split(' ');
+            if (row.length() != n + 1)
+                throw;
             for (int j = 0; j < n; j++) {
                 A[i - 1][j] = row[j].toDouble(&ok);
                 if (!ok) throw;
@@ -98,3 +103,9 @@ void GUI::sendOutput(QTextEdit *output, QString msg)
     output->setPlainText(msg);
 }
 
+
+void GUI::on_Lab1FillBtn_clicked()
+{
+    if (ui->deteminedLab1Tests->currentText() == "Simple")
+        sendOutput(ui->Lab1Input, "3\n2 -1 1 23\n4 3 1 32\n6 -13 6 33");
+}

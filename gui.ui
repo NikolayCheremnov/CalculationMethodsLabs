@@ -25,13 +25,6 @@
         <string>Lab1</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="0">
-         <widget class="QPushButton" name="Lab1SolveBtn">
-          <property name="text">
-           <string>Solve</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
          <widget class="QTextEdit" name="Lab1Input">
           <property name="lineWrapMode">
@@ -39,13 +32,34 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="Lab1FillBtn">
+          <property name="text">
+           <string>Fill</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="1">
          <widget class="QTextEdit" name="Lab1Output"/>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
+        <item row="3" column="0">
+         <widget class="QComboBox" name="deteminedLab1Tests">
+          <item>
+           <property name="text">
+            <string>None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Simple</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="Lab1SolveBtn">
           <property name="text">
-           <string>Input data:</string>
+           <string>Solve</string>
           </property>
          </widget>
         </item>
@@ -53,6 +67,13 @@
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>Output data:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Input data:</string>
           </property>
          </widget>
         </item>

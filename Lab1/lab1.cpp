@@ -61,6 +61,12 @@ tuple<TriangularMatrix<double> *, TriangularMatrix<double> *> Lab1::CalculateLUM
             } else { // find Lij
                 for (int k = 0; k < j; k++)
                     sum += L->get(i, k) * U->get(k, j);
+                if (U->get(j, j) == 0) {
+                    logger->log("matrix U is degenerate");
+                    delete L;
+                    delete U;
+                    return tuple<TriangularMatrix<double> *, TriangularMatrix<double> *> (nullptr, nullptr);
+                }
                 L->set(i, j, (A->get(i, j) - sum) / U->get(j, j));
             }
         }
@@ -97,6 +103,11 @@ Vector<double> *Lab1::CalculateX(TriangularMatrix<double> *U, Vector<double> *y)
         double xi = y->get(i);
         for (int j = i + 1; j < A->get_size(); j++)
             xi -= U->get(i, j) * x->get(j);
+        if (U->get(i, i) == 0) {
+            logger->log("matrix U is degenerate");
+            delete x;
+            return nullptr;
+        }
         x->set(i, xi / U->get(i, i));
     }
 
@@ -125,11 +136,21 @@ SquareMatrix<double> *Lab1::CalculateInverseMatrix(TriangularMatrix<double> *L, 
                 Xij = 1;
                 for (int k = j + 1; k < this->A->get_size(); k++)
                     Xij -= U->get(j, k) * X->get(k, j);
+                if (U->get(i, j) == 0) {
+                    logger->log("matrix U is degenerate");
+                    delete X;
+                    return nullptr;
+                }
                 Xij /= U->get(i, j);
             }
             else if (i < j) {
                 for (int k = i + 1; k < this->A->get_size(); k++)
                     Xij += U->get(i, k) * X->get(k, j);
+                if (U->get(i, i) == 0) {
+                    logger->log("matrix U is degenerate");
+                    delete X;
+                    return nullptr;
+                }
                 Xij /= -U->get(i, i);
             } else {
                 for (int k = j + 1; k < this->A->get_size(); k++)
@@ -254,11 +275,18 @@ void Lab1::TestWithData(double **A, double *b, int n)
         auto tuple_LU = CalculateLUMatrices();
         L = get<0>(tuple_LU);
         U = get<1>(tuple_LU);
+        if (L == nullptr || U == nullptr)
+            throw exception();
         y = CalculateY(L);
         x = CalculateX(U, y);
+        if (x == nullptr)
+            throw exception();
 
         // inverse matrix and determinant
         _A = CalculateInverseMatrix(L, U);
+        if (_A == nullptr)
+            throw _A;
+
         CalculateDet(U);
 
 
