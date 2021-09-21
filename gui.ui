@@ -25,22 +25,19 @@
         <string>Lab1</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QTextEdit" name="Lab1Input">
-          <property name="lineWrapMode">
-           <enum>QTextEdit::NoWrap</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="Lab1FillBtn">
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Fill</string>
+           <string>Output data:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QTextEdit" name="Lab1Output"/>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="Lab1SolveBtn">
+          <property name="text">
+           <string>Solve</string>
+          </property>
+         </widget>
         </item>
         <item row="3" column="0">
          <widget class="QComboBox" name="deteminedLab1Tests">
@@ -51,22 +48,33 @@
           </item>
           <item>
            <property name="text">
+            <string>Task 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Task 2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Task 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
             <string>Simple</string>
            </property>
           </item>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="Lab1SolveBtn">
-          <property name="text">
-           <string>Solve</string>
-          </property>
-         </widget>
+        <item row="1" column="2" colspan="2">
+         <widget class="QTextEdit" name="Lab1Output"/>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Output data:</string>
+        <item row="1" column="0" colspan="2">
+         <widget class="QTextEdit" name="Lab1Input">
+          <property name="lineWrapMode">
+           <enum>QTextEdit::NoWrap</enum>
           </property>
          </widget>
         </item>
@@ -74,6 +82,20 @@
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Input data:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="Lab1FillBtn">
+          <property name="text">
+           <string>Fill</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="Lab1GenerateRandomSystemBtn">
+          <property name="text">
+           <string>Generate random system</string>
           </property>
          </widget>
         </item>

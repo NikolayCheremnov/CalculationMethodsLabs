@@ -5,6 +5,8 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
+#include "randomsystemgenerationwindow.h"
+
 #include "Lab1/lab1.h"
 #include "Logger/stringlogger.h"
 
@@ -26,6 +28,9 @@ private slots:
     void on_Lab1SolveBtn_clicked();
 
     void on_Lab1FillBtn_clicked();
+
+
+    void on_Lab1GenerateRandomSystemBtn_clicked();
 
 private:
     Ui::GUI *ui;

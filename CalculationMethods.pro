@@ -20,7 +20,8 @@ SOURCES += \
     Matrix/triangularmatrix.cpp \
     Matrix/vector.cpp \
     main.cpp \
-    gui.cpp
+    gui.cpp \
+    randomsystemgenerationwindow.cpp
 
 HEADERS += \
     Lab1/lab1.h \
@@ -33,10 +34,12 @@ HEADERS += \
     Matrix/squarematrix.h \
     Matrix/triangularmatrix.h \
     Matrix/vector.h \
-    gui.h
+    gui.h \
+    randomsystemgenerationwindow.h
 
 FORMS += \
-    gui.ui
+    gui.ui \
+    randomsystemgenerationwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

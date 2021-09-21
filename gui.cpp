@@ -106,6 +106,23 @@ void GUI::sendOutput(QTextEdit *output, QString msg)
 
 void GUI::on_Lab1FillBtn_clicked()
 {
-    if (ui->deteminedLab1Tests->currentText() == "Simple")
+    QString test = ui->deteminedLab1Tests->currentText();
+    if (test == "Simple")
         sendOutput(ui->Lab1Input, "3\n2 -1 1 23\n4 3 1 32\n6 -13 6 33");
+    else if (test == "Task 1")
+        sendOutput(ui->Lab1Input, "4\n5 7 6 5 23\n7 10 8 7 32\n6 8 10 9 33\n5 7 9 10 31");
+    else if (test == "Task 2")
+        sendOutput(ui->Lab1Input, "4\n5 7 6 5 23.01\n7 10 8 7 31.99\n6 8 10 9 32.99\n5 7 9 10 31.01");
+    else if (test == "Task 3")
+        sendOutput(ui->Lab1Input, "4\n5 7 6 5 23.1\n7 10 8 7 31.9\n6 8 10 9 32.9\n5 7 9 10 31.1");
 }
+
+
+void GUI::on_Lab1GenerateRandomSystemBtn_clicked()
+{
+    RandomSystemGenerationWindow* generatorWindow = new RandomSystemGenerationWindow();
+    generatorWindow->exec();
+    sendOutput(ui->Lab1Input, generatorWindow->getSystemStr());
+    delete generatorWindow;
+}
+
