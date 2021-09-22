@@ -299,6 +299,9 @@ void Lab1::TestWithData(double **A, double *b, int n)
         A_A = (*(this->A)) * _A;
         A_E = (*A_A) - E;
         logger->log("AA^-1 - E = \n" + A_E->get_data_str());
+        logger->log("||A|| = " + to_string(this->A->MaxOfAbs()));
+        logger->log("||A^-1|| = " + to_string(_A->MaxOfAbs()));
+        logger->log("||A|| * ||A^-1|| = " + to_string(this->A->MaxOfAbs() * _A->MaxOfAbs()));
     }
     catch (exception& ex) {
         release_memory();
