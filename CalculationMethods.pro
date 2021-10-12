@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     Lab1/lab1.cpp \
+    Lab2/lab2.cpp \
     Logger/ilogger.cpp \
     Logger/pluglogger.cpp \
     Logger/streamlogger.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     Lab1/lab1.h \
+    Lab2/lab2.h \
     Logger/ilogger.h \
     Logger/pluglogger.h \
     Logger/streamlogger.h \
@@ -35,6 +37,9 @@ HEADERS += \
     Matrix/triangularmatrix.h \
     Matrix/vector.h \
     gui.h \
+    lapacke/_lapacke.h \
+    lapacke/_lapacke_config.h \
+    lapacke/_lapacke_utils.h \
     randomsystemgenerationwindow.h
 
 FORMS += \
@@ -45,3 +50,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+LIBS += -lm -lblas -llapack -llapacke
